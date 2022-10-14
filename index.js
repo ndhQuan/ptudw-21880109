@@ -24,6 +24,14 @@ app.get('/:page', (req, res) => {
         blog: 'Our Blog',
         category: 'Shop Category',
         cart: 'Shopping Cart',
+        checkout: 'Product Checkout',
+        confirmation: 'Order Confirmation',
+        contact: 'Contact Us',
+        login: 'Login / Register',
+        register: 'Register',
+        'single-blog': 'Blog Details',
+        'single-product': 'Shop Single',
+        'tracking-order': 'Order Tracking',
     }
     let page = req.params.page;
     res.render(page, {banner: banners[page]});
