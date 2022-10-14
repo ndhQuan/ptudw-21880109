@@ -1,0 +1,16 @@
+{
+  "name": "21880109",
+  "version": "1.0.0",
+  "description": "Project PTUDW",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hoang Quan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-handlebars": "^6.0.6"
+  }
+}
