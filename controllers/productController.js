@@ -22,4 +22,18 @@ controller.getTrendingProducts = () =>{
     })
 }
 
+controller.getAll = () =>{
+    return new Promise((resolve, reject) =>{
+        Product
+        .findAll({
+            include: [{model: models.Category}],
+            attributes: ['id','name','imagepath','price']
+        })
+        .then(data => resolve(data))
+        .catch((error)=>{
+            reject(new Error(error));
+        })
+    })
+}
+
 module.exports = controller;
