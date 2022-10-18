@@ -10,13 +10,25 @@ let hbs = expressHbs.create({
     defaultLayout: 'layout',
     layoutsDir: __dirname + '/views/layouts/',
     partialsDir: __dirname + '/views/partials/',
+    runtimeOptions: { allowProtoPropertiesByDefault: true },
 });
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 
-//Define your routes here
-app.get('/', (req, res) =>{
-    res.render('index');
+// Define your routes here
+// / => index
+// /products => category
+// /products/:id => single-product
+
+// index.js => routes/..Router.js => controllers/..Controller.js
+app.use('/', require('./routes/indexRouter'));
+app.use('/products', require('./routes/productRouter'));
+
+app.get('/sync', (req,res) => {
+    let models = require('./models');
+    models.sequelize.sync().then(() => {
+        res.send('database sync completed!')
+    })
 })
 
 app.get('/:page', (req, res) => {
