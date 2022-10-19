@@ -1,4 +1,4 @@
-	
+	<script src="/vendors/nouislider/nouislider.min.js"></script>
 	{{> banner }}
   
   <!-- ================ category section start ================= -->		  
@@ -13,7 +13,7 @@
                 <form action="#">
                   <ul>
                     {{#each categories}}
-                      <li class="filter-list"><input class="pixel-radio" type="radio" id="men" name="brand"><label for="men">{{name}}<span> ({{Products.length}})</span></label></li>
+                      <li class="filter-list"><input class="pixel-radio" type="radio" id="category{{id}}" name="category" onclick="selectParam('category', {{id}}, true)"><label for="category{{id}}">{{name}}<span> ({{Products.length}})</span></label></li>
                     {{/each}}
                   </ul>
                 </form>
@@ -27,7 +27,7 @@
               <form action="#">
                 <ul>
                   {{#each brands}}
-                    <li class="filter-list"><input class="pixel-radio" type="radio" id="apple" name="brand"><label for="apple">{{name}}<span>({{Products.length}})</span></label></li>
+                    <li class="filter-list"><input class="pixel-radio" type="radio" id="brand{{id}}" name="brand" onclick="selectParam('brand', {{id}})"><label for="brand{{id}}">{{name}}<span>({{Products.length}})</span></label></li>
                   {{/each}}
                 </ul>
               </form>
@@ -37,7 +37,7 @@
               <form action="#">
                 <ul>
                   {{#each colors}}
-                  <li class="filter-list"><input class="pixel-radio" type="radio" id="black" name="color"><label for="black">{{name}}<span>({{ProductColors.length}})</span></label></li>
+                    <li class="filter-list"><input class="pixel-radio" type="radio" id="color{{id}}" name="color" onclick="selectParam('color', {{id}})"><label for="color{{id}}">{{name}}<span>({{ProductColors.length}})</span></label></li>
                   {{/each}}
                 </ul>
               </form>
@@ -100,7 +100,7 @@
                     </ul>
                   </div>
                   <div class="card-body">
-                    <p>{{Categories.name}}</p>
+                    <p>{{Category.name}}</p>
                     <h4 class="card-product__title"><a href="/products/{{id}}">{{name}}</a></h4>
                     <p class="card-product__price">{{price}}</p>
                   </div>
@@ -256,3 +256,37 @@
     </div>
   </section>
 	<!-- ================ Subscribe section end ================= -->		  
+
+  <script>
+    let urlParams = new URLSearchParams(location.search);
+    let params = {
+      category: 0,
+      brand: 0,
+      color: 0,
+      min: 0,
+      max: 100
+    };
+    for(let key in params){
+      if(!urlParams.has(key)){
+        urlParams.append(key, params[key]);
+      }
+    }
+
+    for(let key in params){
+      let control = $(`#${key}${urlParams.get(key)}`);
+      if(control){
+        $(control).prop('checked', true);
+      }
+    }
+
+    var selectParam = (key, value, reset = false) => {
+      if(reset){
+        for(let key in params){
+          urlParams.set(key, params[key]);
+      }
+    }
+      urlParams.set(key, value);
+      let url = `/products?${urlParams.toString()}`;
+      location.href = url;
+    }
+  </script>
