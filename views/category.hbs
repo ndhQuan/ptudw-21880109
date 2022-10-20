@@ -82,14 +82,14 @@
             </select>
           </div>
           <div>
-            <div class="input-group filter-bar-search">
-              <form action="/products" method="get">
-                <input type="text" name="search" placeholder="Search">
-                <div class="input-group-append">
-                  <button type="submit"><i class="ti-search"></i></button>
-                </div>
-              </form>
-            </div>
+            <form action="/products" method="get"></form>
+              <div class="input-group filter-bar-search">
+                  <input type="text" name="search" placeholder="Search">
+                  <div class="input-group-append">
+                    <button type="submit"><i class="ti-search"></i></button>
+                  </div>
+              </div>
+            </form>
           </div>
         </div>
         <!-- End Filter Bar -->
@@ -297,7 +297,7 @@
   $(document).ready(() => {
     // Thiet lap trang thai cho cac checkbox browse va filter
     let checkboxes = ['category', 'brand', 'color'];
-    for (let key in checkboxes) {
+    for (let key of checkboxes) {
       let control = $(`#${key}${urlParams.get(key)}`);
       if (control) {
         $(control).prop('checked', true);
@@ -309,10 +309,10 @@
     // Thiet lap trang thai va duong dan href cho phep link cua pagination
     $('#pagination li').addClass('page-item');
     $('#pagination li a').addClass('page-link');
+    let savePage = urlParams.get('page');
     $('#pagination li a').each((index, item) => {
       // href = /product?page=2
       let page = $(item).attr('href').split('=')[1];
-      let savePage = urlParams.get('page');
       urlParams.set('page', page);
       let href = '/products?' + urlParams.toString();
       $(item).attr('href', href);

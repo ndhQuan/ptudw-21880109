@@ -1,7 +1,7 @@
 let express = require('express');
 let router = express.Router();
 
-router.get('/',(req,res)=>{
+router.get('/',(req,res,next)=>{
     let categoryController = require('../controllers/categoryController');
     categoryController
     .getAll()
@@ -14,7 +14,7 @@ router.get('/',(req,res)=>{
         res.locals.trendingProducts = data;
         res.render('index');
     })
-    .catch(error=> {
+    .catch(error => {
         next(error);
     })
 })
