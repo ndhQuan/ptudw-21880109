@@ -38,6 +38,11 @@ controller.getAll = (query) =>{
         if(query.category > 0){
             options.where.categoryId = query.category;
         }
+        if(query.search != ''){
+            options.where.name = {
+                [Op.iLike]: `%${query.search}%`
+            }
+        }
         if(query.brand > 0){
             options.where.brandId = query.brand;
         }
@@ -48,8 +53,31 @@ controller.getAll = (query) =>{
                 where: { colorId: query.color},
             })
         }
+        if(query.limit > 0){
+            options.limit = query.limit;
+            options.offset = query.limit * (query.page -1)
+        }
+        if(query.sort){
+            switch(query.sort){
+                case 'name':
+                    options.order = [['name','ASC']]
+                    break;
+                case 'price':
+                    options.order = [['price', 'ASC']]
+                    break;
+                case 'overallReview':
+                    options.order = [
+                        ['overallReview','DESC']
+                    ];
+                    break;
+                default:
+                    options.order = [
+                        ['name', 'ASC']
+                    ];
+            }
+        }
         Product
-            .findAll(options)
+            .findAndCountAll(options)  // {row, count}
             .then(data => resolve(data))
             .catch((error)=>{
                 reject(new Error(error));
