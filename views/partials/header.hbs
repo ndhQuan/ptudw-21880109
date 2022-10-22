@@ -37,11 +37,23 @@
                 </ul>
               </li>
               <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+              {{#if isLoggedIn}}
+              							<li class="nav-item submenu dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false">{{fullname}}</a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item"><a class="nav-link" href="/category">Shop Category</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/users/logout">Logout</a></li>
+                </ul>
+              </li>
+              {{else}}
+                <li class="nav-item"><a class="nav-link" href="/users/login">Login</a></li>
+              {{/if}}
             </ul>
 
             <ul class="nav-shop">
               <li class="nav-item"><button><i class="ti-search"></i></button></li>
-              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
+              <li class="nav-item"><button onclick="location.href='/cart'"><i class="ti-shopping-cart"></i><span class="nav-shop__circle" id="cart-badge">{{totalQuantity}}</span></button> </li>
               <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>
             </ul>
           </div>

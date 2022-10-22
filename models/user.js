@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define('User', {
         username: DataTypes.STRING,
-        password: DataTypes.STRING,
+        password: DataTypes.STRING, 
         fullname: DataTypes.STRING,
         avatarPath: DataTypes.STRING,
         isAdmin: DataTypes.BOOLEAN

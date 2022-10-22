@@ -22,6 +22,35 @@ let hbs = expressHbs.create({
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 
+//Use Body-Parser
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+
+//Use Cookie-parser
+let cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+//Use Session
+let session = require('express-session')
+app.use(session({
+    cookie: { httpOnly: true, maxAge: null},
+    secret: 'S3cret',
+    resave: false,
+    saveUninitialized: false
+}))
+
+// Use Cart Controller
+let Cart = require('./controllers/cartController');
+app.use((req,res,next) => {
+    var cart = new Cart(req.session.cart ? req.session.cart : {});
+    req.session.cart = cart;
+    res.locals.totalQuantity = cart.totalQuantity;
+
+    res.locals.fullname = req.session.user ? req.session.user.fullname : '';
+    res.locals.isLoggedIn = req.session.user ? true : false;
+    next();
+})
+
 // Define your routes here
 // / => index
 // /products => category
@@ -30,6 +59,10 @@ app.set('view engine', 'hbs');
 // index.js => routes/..Router.js => controllers/..Controller.js
 app.use('/', require('./routes/indexRouter'));
 app.use('/products', require('./routes/productRouter'));
+app.use('/cart', require('./routes/cartRouter'))
+app.use('/comments', require('./routes/commentRouter'));
+app.use('/reviews', require('./routes/reviewsRouter'))
+app.use('/users', require('./routes/userRouter'));
 
 app.get('/sync', (req,res) => {
     let models = require('./models');
